@@ -11,22 +11,25 @@ import ShoppingCart from './components/ShoppingCart';
 import ProductContext from './contexts/ProductContext';
 import CartContext from './contexts/CartContext';
 
+const initialCart = JSON.parse(window.localStorage.getItem('cart')) || [];
+
 function App() {
 	const [products] = useState(data);
-	const [cart, setCart] = useState([]);
+	const [cart, setCart] = useState(initialCart);
 
 	const addItem = item => {
     if (!cart.some(elem => elem.id === item.id)){
-      setCart([
-        ...cart,
-        item
-      ]);
+      const newCart = [...cart, item];
+      setCart(newCart);
+      window.localStorage.setItem('cart', JSON.stringify(newCart));
     }
 	};
 
   const makeRemoveItem = (item) => {
     return () => {
-      setCart(cart.filter(elem => elem !== item));
+      const newCart = cart.filter(elem => elem !== item);
+      setCart(newCart);
+      window.localStorage.setItem('cart', JSON.stringify(newCart));
     };
   };
 
