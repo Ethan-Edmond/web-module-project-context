@@ -16,11 +16,19 @@ function App() {
 	const [cart, setCart] = useState([]);
 
 	const addItem = item => {
-    setCart([
-      ...cart,
-      item
-    ]);
+    if (!cart.some(elem => elem.id === item.id)){
+      setCart([
+        ...cart,
+        item
+      ]);
+    }
 	};
+
+  const makeRemoveItem = (item) => {
+    return () => {
+      setCart(cart.filter(elem => elem !== item));
+    };
+  };
 
 	return (
 		<div className="App">
@@ -34,7 +42,7 @@ function App() {
 			    </Route>
 
 			    <Route path="/cart">
-				    <ShoppingCart/>
+				    <ShoppingCart makeRemoveItem={makeRemoveItem}/>
 			    </Route>
         </CartContext.Provider>
       </ProductContext.Provider>
