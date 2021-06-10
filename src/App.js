@@ -16,10 +16,12 @@ function App() {
 	const [cart, setCart] = useState([]);
 
 	const addItem = item => {
-    setCart([
-      ...cart,
-      item
-    ]);
+    if (!cart.some(elem => elem.id === item.id)){
+      setCart([
+        ...cart,
+        item
+      ]);
+    }
 	};
 
 	return (
